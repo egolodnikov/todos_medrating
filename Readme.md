@@ -34,7 +34,7 @@ laborum aut in quam
 Нужно иметь python 3.6, python3.6-venv, git
 
 1. `git clone https://github.com/egolodnikov/todos_medrating.git`
-2. `cd todos_medrating`
+2. `cd todos_medrating/`
 3. `python3 -m venv venv`
 4. `source venv/bin/activate`
 5. `pip install -r requirements.txt`
