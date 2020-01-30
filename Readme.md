@@ -1,3 +1,4 @@
+# Описание
 Есть API для получения списка задач и api для получения списка юзеров:
 https://json.medrating.org/todos
 https://json.medrating.org/users
@@ -30,3 +31,12 @@ laborum aut in quam
 Предусмотреть возможные сбои в сети или при записи на диск. Не должно быть наполовину сформированных файлов. Либо файл есть и он целиком корректный, либо его нет.
 Если по юзеру однажды был создан отчёт, то всегда должен существовать актуальный отчёт без даты в названии. Не должно быть такого, что из-за сбоя в сети или т.п. остались только файлы с датами в названиях.
 
+# Как запустить проект
+Нужно иметь python 3.6, python3.6-venv, git
+
+1. `git clone https://github.com/egolodnikov/todos_medrating.git`
+2. `cd todos_medrating/`
+3. `python3 -m venv venv`
+4. `source venv/bin/activate`
+5. `pip install -r requirements.txt`
+6. `python3 main.py`
