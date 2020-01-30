@@ -60,7 +60,7 @@ class OrderHandler:
             with open(file_path, 'w+') as f:
                 # message in begin of file
                 start_message = (
-                    f'{user["name"]} - <{user["email"]}> {time}\n'
+                    f'{user["name"]} <{user["email"]}> {time}\n'
                     f'{user["company"]["name"]}\n\n'
                     'Завершенные задачи: \n'
                 )
