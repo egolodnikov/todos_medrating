@@ -58,20 +58,19 @@ class OrderHandler:
         time = strftime('%d.%m.%Y %H:%M')
         file_path = f'{files_path}//{user["username"]}.txt'
         try:
-            f = open(file_path, 'w+')
-            # message in begin of file
-            start_message = (
-                f'{user["name"]} - <{user["email"]}> {time}\n'
-                f'{user["company"]["name"]}\n\n'
-                'Завершенные задачи: \n'
-            )
-            f.write(start_message)
-            for todo in true_todo:
-                f.write(f'{todo}...\n')
-            f.write(f'\n\nОставшиеся задачи:\n')
-            for todo in false_todo:
-                f.write(f'{todo}...\n')
-            f.close()
+            with open(file_path, 'w+') as f:
+                # message in begin of file
+                start_message = (
+                    f'{user["name"]} - <{user["email"]}> {time}\n'
+                    f'{user["company"]["name"]}\n\n'
+                    'Завершенные задачи: \n'
+                )
+                f.write(start_message)
+                for todo in true_todo:
+                    f.write(f'{todo}\n')
+                f.write(f'\nОставшиеся задачи:\n')
+                for todo in false_todo:
+                    f.write(f'{todo}\n')
         except OSError:
             print('Fail write to disk')
 
@@ -80,7 +79,10 @@ class OrderHandler:
         true_todo = []
         for todo in self.todos:
             if todo.get('userId') == user['id']:
-                new_todo_title = todo['title'][:50] if len(todo['title']) > 50 else todo['title']
+                if len(todo['title']) > 50:
+                    new_todo_title = f"{todo.get('title')[:50]}..."
+                else:
+                    new_todo_title = todo.get('title')
                 if todo.get('completed'):
                     true_todo.append(new_todo_title)
         true_todo = tuple(true_todo)
