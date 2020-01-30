@@ -52,8 +52,7 @@ class OrderHandler:
             new_file_path = f'{files_path}//{user["username"]}_{new_time}.txt'
             os.rename(file_path, new_file_path)
 
-    @staticmethod
-    def write_todos(files_path, user, true_todo, false_todo):
+    def write_todos(self, files_path, user, true_todo, false_todo):
         # write task in report on disk
         time = strftime('%d.%m.%Y %H:%M')
         file_path = f'{files_path}//{user["username"]}.txt'
@@ -66,13 +65,17 @@ class OrderHandler:
                     'Завершенные задачи: \n'
                 )
                 f.write(start_message)
-                for todo in true_todo:
-                    f.write(f'{todo}\n')
+                self.file_write_todos(f, true_todo)
                 f.write(f'\nОставшиеся задачи:\n')
-                for todo in false_todo:
-                    f.write(f'{todo}\n')
+                self.file_write_todos(f, false_todo)
         except OSError:
             print('Fail write to disk')
+
+    @staticmethod
+    def file_write_todos(f, todos):
+        # write todos on disk
+        for todo in todos:
+            f.write(f'{todo}\n')
 
     def find_true_todo(self, user):
         # find true task and return tuple for speed
