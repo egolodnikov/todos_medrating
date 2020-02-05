@@ -28,8 +28,7 @@ class OrderHandler:
                 self.check_report(files_path, user)
                 self.write_todos(files_path, user, true_todo, false_todo)
         except AttributeError:
-            return print('Not users')
-        return None
+            print('Not users')
 
     @staticmethod
     def create_dir():
@@ -38,7 +37,7 @@ class OrderHandler:
         try:
             os.mkdir('tasks')
         except OSError:
-            return print(f'Creation of the directory {path} failed')
+            print(f'Creation of the directory {path} failed')
         print(f'Successfully created the directory {path}')
         files_path = f'{path}/tasks'
         return files_path
@@ -54,7 +53,6 @@ class OrderHandler:
             ).strftime('%Y-%m-%dT%H:%M')
             new_file_path = f'{files_path}//{user["username"]}_{new_time}.txt'
             os.rename(file_path, new_file_path)
-        return None
 
     def write_todos(self, files_path, user, true_todo, false_todo):
         """Write task in on disk"""
@@ -73,15 +71,13 @@ class OrderHandler:
                 f.write(f'\nОставшиеся задачи:\n')
                 self.file_write_todos(f, false_todo)
         except OSError:
-            return print('Fail write to disk')
-        return None
+            print('Fail write to disk')
 
     @staticmethod
     def file_write_todos(f, todos):
         """Write todos in file"""
         for todo in todos:
             f.write(f'{todo}\n')
-        return None
 
     def find_true_todo(self, user):
         """Find true tasks"""
