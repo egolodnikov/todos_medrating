@@ -84,10 +84,7 @@ class OrderHandler:
         true_todo = []
         for todo in self.todos:
             if todo.get('userId') == user['id']:
-                if len(todo['title']) > 50:
-                    new_todo_title = f"{todo.get('title')[:50]}..."
-                else:
-                    new_todo_title = todo.get('title')
+                new_todo_title = self.rename_todo_title(todo.get('title'))
                 if todo.get('completed'):
                     true_todo.append(new_todo_title)
         true_todo = tuple(true_todo)
@@ -98,14 +95,19 @@ class OrderHandler:
         false_todo = []
         for todo in self.todos:
             if todo.get('userId') == user['id']:
-                if len(todo['title']) > 50:
-                    new_todo_title = f"{todo.get('title')[:50]}..."
-                else:
-                    new_todo_title = todo.get('title')
+                new_todo_title = self.rename_todo_title(todo.get('title'))
                 if not todo.get('completed'):
                     false_todo.append(new_todo_title)
         false_todo = tuple(false_todo)
         return false_todo
+
+    @staticmethod
+    def rename_todo_title(title):
+        if len(title) > 50:
+            new_todo_title = f"{title[:50]}..."
+        else:
+            new_todo_title = title
+        return new_todo_title
 
 
 if __name__ == "__main__":
