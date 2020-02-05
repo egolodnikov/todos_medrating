@@ -15,4 +15,7 @@ class UserTestCase(unittest.TestCase):
     def test_rename_task_title(self):
         expected_value = f'{self.test_string[:50]}...'
         print(expected_value)
-        self.assertEqual(Order.rename_task_title(self.test_string), expected_value)
+        self.assertEqual(
+            Order.rename_task_title(self.test_string),
+            expected_value
+        )
