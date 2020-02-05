@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+
 from time import strftime
 from datetime import datetime
 
@@ -27,33 +28,36 @@ class OrderHandler:
                 self.check_report(files_path, user)
                 self.write_todos(files_path, user, true_todo, false_todo)
         except AttributeError:
-            print('Not users')
+            return print('Not users')
+        return None
 
     @staticmethod
     def create_dir():
+        """Create dir for reports"""
         path = os.getcwd()
         try:
             os.mkdir('tasks')
         except OSError:
-            print(f'Creation of the directory {path} failed')
-        else:
-            print(f'Successfully created the directory {path}')
+            return print(f'Creation of the directory {path} failed')
+        print(f'Successfully created the directory {path}')
         files_path = f'{path}/tasks'
         return files_path
 
     @staticmethod
     def check_report(files_path, user):
-        # check old report
-        # '23.09.2020 15:25'
+        """Check old reports"""
         file_path = f'{files_path}//{user["username"]}.txt'
         if os.path.exists(file_path):
             time_of_create_file = os.path.getmtime(file_path)
-            new_time = datetime.fromtimestamp(time_of_create_file).strftime('%Y-%m-%dT%H:%M')
+            new_time = datetime.fromtimestamp(
+                time_of_create_file
+            ).strftime('%Y-%m-%dT%H:%M')
             new_file_path = f'{files_path}//{user["username"]}_{new_time}.txt'
             os.rename(file_path, new_file_path)
+        return None
 
     def write_todos(self, files_path, user, true_todo, false_todo):
-        # write task in report on disk
+        """Write task in on disk"""
         time = strftime('%d.%m.%Y %H:%M')
         file_path = f'{files_path}//{user["username"]}.txt'
         try:
@@ -69,16 +73,18 @@ class OrderHandler:
                 f.write(f'\nОставшиеся задачи:\n')
                 self.file_write_todos(f, false_todo)
         except OSError:
-            print('Fail write to disk')
+            return print('Fail write to disk')
+        return None
 
     @staticmethod
     def file_write_todos(f, todos):
-        # write todos on disk
+        """Write todos in file"""
         for todo in todos:
             f.write(f'{todo}\n')
+        return None
 
     def find_true_todo(self, user):
-        # find true task and return tuple for speed
+        """Find true tasks"""
         true_todo = []
         for todo in self.todos:
             if todo.get('userId') == user['id']:
@@ -92,11 +98,14 @@ class OrderHandler:
         return true_todo
 
     def find_false_todo(self, user):
-        # find false task and return tuple for speed
+        """Find false tasks"""
         false_todo = []
         for todo in self.todos:
             if todo.get('userId') == user['id']:
-                new_todo_title = todo['title'][:50] if len(todo['title']) > 50 else todo['title']
+                if len(todo['title']) > 50:
+                    new_todo_title = f"{todo.get('title')[:50]}..."
+                else:
+                    new_todo_title = todo.get('title')
                 if not todo.get('completed'):
                     false_todo.append(new_todo_title)
         false_todo = tuple(false_todo)
